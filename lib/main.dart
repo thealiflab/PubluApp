@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:publu/screens/first_page.dart';
 import 'screens/input_page.dart';
 
 void main() => runApp(BMICalculator());
@@ -21,7 +22,7 @@ class BMICalculator extends StatelessWidget {
           ),
         ),
       ),
-      home: InputPage(),
+      home: FirstPage(),
     );
   }
 }

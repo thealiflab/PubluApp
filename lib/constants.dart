@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+const kMyWebSiteURL = 'https://ahmedalif.com';
+const kWelcomeTextStyle = TextStyle(
+  fontSize: 40.0,
+  fontFamily: 'HeadlinerNo',
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
+  letterSpacing: 10.0,
+);
+
 const kAppTitle = Text(
   'Publu',
   style: TextStyle(

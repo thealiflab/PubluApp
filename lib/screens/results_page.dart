@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:publu/components/bottom_button.dart';
 import 'package:publu/constants.dart';
 import '../components/reusable_card.dart';
+import '../app_brain.dart';
 
 class ResultsPage extends StatelessWidget {
+  ResultsPage({@required this.finalDecision, @required this.tier});
+
+  final String finalDecision;
+  final String tier;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,12 +37,12 @@ class ResultsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'You Should Play!',
+                    '$finalDecision!',
                     style: kResultMainDecision,
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    'SSS',
+                    tier,
                     style: kResultTierTextStyle,
                   ),
                 ],
@@ -46,6 +52,8 @@ class ResultsPage extends StatelessWidget {
           BottomButton(
             buttonTitle: 'RE CALCULATE',
             onTap: () {
+              AppBrain appBrain = AppBrain();
+              appBrain.mainVariable = 0;
               Navigator.pop(context);
             },
           )

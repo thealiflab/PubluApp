@@ -6,6 +6,7 @@ import '../components/reusable_card.dart';
 import '../components/tick_and_cross_container.dart';
 import '../components/bottom_button.dart';
 import 'results_page.dart';
+import '../app_brain.dart';
 
 enum DecisionState {
   TickClass,
@@ -40,14 +41,16 @@ class _InputPageState extends State<InputPage> {
   DecisionState selectedStateRoom;
   int sliderHeightMood = 80;
   int sliderHeightBattery = 50;
+  int timeIndex;
+  int playerIndex;
+  String classDecision;
+  String roomDecision;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: kAppTitle,
-        ),
+        title: kAppTitle,
       ),
       body: Column(
         children: <Widget>[
@@ -90,6 +93,7 @@ class _InputPageState extends State<InputPage> {
                     onChanged: (double newValue) {
                       setState(() {
                         sliderHeightMood = newValue.round();
+                        print(sliderHeightMood);
                       });
                     },
                   ),
@@ -125,6 +129,7 @@ class _InputPageState extends State<InputPage> {
                           backgroundColor: kBoxContainerColor,
                           onSelectedItemChanged: (selectedIndex) {
                             print(selectedIndex);
+                            timeIndex = selectedIndex;
                           },
                           children: getTimeItems(),
                         ),
@@ -157,6 +162,7 @@ class _InputPageState extends State<InputPage> {
                           backgroundColor: kBoxContainerColor,
                           onSelectedItemChanged: (selectedIndex) {
                             print(selectedIndex);
+                            playerIndex = selectedIndex;
                           },
                           children: getPlayerItems(),
                         ),
@@ -193,6 +199,8 @@ class _InputPageState extends State<InputPage> {
                                     () {
                                       selectedStateClass =
                                           DecisionState.TickClass;
+                                      classDecision =
+                                          selectedStateClass.toString();
                                     },
                                   );
                                 },
@@ -211,6 +219,8 @@ class _InputPageState extends State<InputPage> {
                                   setState(() {
                                     selectedStateClass =
                                         DecisionState.CrossClass;
+                                    classDecision =
+                                        selectedStateClass.toString();
                                   });
                                 },
                                 child: CrossContainer(
@@ -248,6 +258,7 @@ class _InputPageState extends State<InputPage> {
                               onTap: () {
                                 setState(() {
                                   selectedStateRoom = DecisionState.TickRoom;
+                                  roomDecision = selectedStateRoom.toString();
                                 });
                               },
                               child: TickContainer(
@@ -264,6 +275,7 @@ class _InputPageState extends State<InputPage> {
                               onTap: () {
                                 setState(() {
                                   selectedStateRoom = DecisionState.CrossRoom;
+                                  roomDecision = selectedStateRoom.toString();
                                 });
                               },
                               child: CrossContainer(
@@ -333,10 +345,20 @@ class _InputPageState extends State<InputPage> {
           BottomButton(
             buttonTitle: 'CALCULATE',
             onTap: () {
+              AppBrain appBrain = AppBrain(
+                  moodPercentage: sliderHeightMood,
+                  timeIndex: timeIndex,
+                  playerIndex: playerIndex,
+                  classDecision: classDecision,
+                  roomDecision: roomDecision,
+                  batteryPercentage: sliderHeightBattery);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ResultsPage(),
+                  builder: (context) => ResultsPage(
+                    finalDecision: appBrain.mainDecision(),
+                    tier: appBrain.tier(),
+                  ),
                 ),
               );
             },
